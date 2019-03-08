@@ -1,7 +1,10 @@
 import pymysql
 
-INSERT_BASIC_DETAILS = '''INSERT INTO Profile (identification_number, identification_type, name, email) VALUES ('{idno}', '{idty}', '{name}', '{email}');'''
-GET_DETAILS = '''select id from Profile where identification_number='{idno}' and identification_type='{idty}' and name='{name}' and email='{email}';'''
+INSERT_BASIC_DETAILS = '''INSERT INTO Profile
+(first_name, middle_name, last_name, email, contact,
+dob, addr, exprnc, skills, resume_path)
+VALUES ('{fn}', '{mn}', '{ln}', '{email}', '{contact}', '{dob}', '{addr}',
+'{exprnc}', '{skills}', '{resume_path}');'''
 
 def connect():
     return pymysql.connect(
@@ -11,18 +14,28 @@ def connect():
             db='hrbot',
         )
 
-def save_profile(idno, idty, name, email):
+def get_last_profile():
+    #
+    connection = connect()
+    cursor = connection.cursor()
+    cursor.execute("SELECT id FROM Profile ORDER BY id DESC LIMIT 1;")
+    value = cursor.fetchone()
+    try:
+        return value[0]
+    except:
+        return 0
+
+def save_profile(fn, ln, mn, dob, addrs, email, contact, exprnc, skills, resume):
     try:
         # print(idno)
         connection = connect()
         cursor = connection.cursor()
-        insertStatement = INSERT_BASIC_DETAILS.format(idno=idno, idty=idty, name=name, email=email)
+        insertStatement = INSERT_BASIC_DETAILS.format(fn=fn, mn=mn, ln=ln, email=email, contact=contact, dob=dob, addr=addrs, exprnc=exprnc, skills=skills, resume_path=resume)
         # print(insertStatement)
         cursor.execute(insertStatement)
         connection.commit()
-        select_statement = GET_DETAILS.format(idno=idno, idty=idty, name=name, email=email)
         # print(select_statement)
-        cursor.execute(select_statement)
+        cursor.execute("SELECT id FROM Profile ORDER BY id DESC LIMIT 1;")
         # print(cursor.fetchall())
         value = cursor.fetchone()
         connection.close()
