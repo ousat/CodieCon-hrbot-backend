@@ -1,6 +1,9 @@
 
 
 ## SERVER
+
+- create mysql user/db and export hrbot.sql
+
 - Installations
                 Python 2/3
 - run

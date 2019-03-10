@@ -58,7 +58,7 @@ def login():
 
 @app.route('/profile-details', methods=['POST'])
 def profile_form():
-    print(request.form)
+    # print(request.form)
     fn = request.form["first_name"]
     pwd = request.form["password"]
     email = request.form["email"]

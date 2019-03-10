@@ -43,7 +43,7 @@ def get_file_name(id):
 
 def select_questions(values):
     connection = connect()
-    print(values)
+    # print(values)
     vq = "("
     for val in values:
         vq = vq + "\'" + val + "\',"
@@ -78,7 +78,9 @@ def get_answer(question):
     #
     connection = connect()
     cursor = connection.cursor()
-    cursor.execute("SELECT answer FROM Questions WHERE question ='"+question+"';")
+    aq = "SELECT answer FROM Questions WHERE question ='"+question+"';"
+    # print(aq)
+    cursor.execute(aq)
     value = cursor.fetchone()
     connection.close()
     try:
