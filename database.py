@@ -88,6 +88,26 @@ def get_answer(question):
     except:
         return 0
 
+def save_submitted_answers(user_id, question, expected_answer, user_answer, score):
+    try:
+        # print(idno)
+        connection = connect()
+        cursor = connection.cursor()
+        print("1")
+        insertStatement = '''INSERT INTO SubmittedQuestions (profile_id, question, user_answer, exp_answer, score) VALUES("{user_id}", "{question}", "{ans}", "{exp_ans}", "{sc}");'''.format(user_id=user_id, question=question, ans=user_answer, exp_ans=expected_answer, sc=score)
+        # print(insertStatement)
+        cursor.execute(insertStatement)
+        connection.commit()
+        # print(select_statement)
+        # print(cursor.fetchall())
+        connection.close()
+        return {}
+    except KeyError as ke:
+        print(ke)
+        return False
+    except:
+        return False
+
 def save_profile(fn, email, pwd, resume):
     try:
         # print(idno)

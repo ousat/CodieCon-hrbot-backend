@@ -109,14 +109,29 @@ def score_calculation(ans,user):
         else:
              a=a +1
 
-    synonims=a/len(set(sent))
-
-    exact_key=len(set(intersection(word1,sent)))/len(set(sent))
+    if len(set(sent)) != 0:
+        synonims=a/len(set(sent))
+        exact_key=len(set(intersection(word1,sent)))/len(set(sent))
+    else:
+        synonims = 0
+        exact_key = 0
+    # print(synonims)
+    # print(exact_key)
+    # print(max(synonims,exact_key))
 
     if max(synonims,exact_key)>0.2:
          return 1
     else:
         return 0
+
+def score_maker(user_answers_array, exp_answers_array):
+    sum = 0
+    for i in range(0,5):
+        if score_calculation(exp_answers_array[i], user_answers_array[i]) == 1:
+            sum = sum + 1
+
+    return sum
+
 
 
 def get_word_synonyms_from_sent(word, sent):

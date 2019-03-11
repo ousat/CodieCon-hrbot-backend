@@ -2,12 +2,15 @@ import os
 import json
 from flask import Flask, jsonify, request, redirect, url_for, send_file
 from werkzeug import secure_filename
-from database import save_profile, get_last_profile, validate, get_file_name, select_questions, get_answer
-from analytics import process_pdf, score_calculation
+from database import save_profile, get_last_profile, validate, get_file_name, select_questions, get_answer, save_submitted_answers
+from analytics import process_pdf, score_calculation, score_maker
+# from flask.ext.cors import CORS, cross_origin
 
 # from flask_socketio import SocketIO, send, emit
 
 app = Flask(__name__)
+# cors = CORS(app, resources={r"/foo": {"origins": "*"}})
+# app.config['CORS_HEADERS'] = 'Content-Type'
 # app.config['SECRET_KEY'] = 'abcdef'
 # socketio = SocketIO(app)
 
@@ -42,10 +45,18 @@ def rqsn():
 def submit():
     answer_values = request.get_json()
     total_score = 0
+    ua = []
+    ea = []
     for entry in answer_values:
         answer = get_answer(entry["question"])
-        score = score_calculation(answer, entry["answer"])
+        user_answer = entry["answer"]
+        ua.append(user_answer)
+        ea.append(user_answer)
+        score = 1 if score_calculation(answer, user_answer) == 1 else 0
         total_score = total_score + score
+        save_submitted_answers(entry["user_id"], entry["question"], answer, user_answer, score)
+
+    # print(score_maker(ua, ea))
 
     return jsonify({"response": "OK", "scores": total_score})
 
