@@ -12,7 +12,7 @@ monotonic==1.5
 nltk==3.4
 pdfminer==20140328
 PyMySQL==0.9.3
-python-engineio==3.4.3
+python-engineio==3.8.2.post1
 python-socketio==3.1.2
 singledispatch==3.4.0.3
 six==1.12.0
