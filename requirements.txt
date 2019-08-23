@@ -9,7 +9,7 @@ itsdangerous==1.1.0
 Jinja2==2.10
 MarkupSafe==1.1.1
 monotonic==1.5
-nltk==3.4
+nltk==3.4.5
 pdfminer==20140328
 PyMySQL==0.9.3
 python-engineio==3.4.3
